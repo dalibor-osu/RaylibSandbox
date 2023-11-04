@@ -1,4 +1,6 @@
-﻿namespace RaylibSandbox.Interfaces;
+﻿using RaylibSandbox.Scenes;
+
+namespace RaylibSandbox.Interfaces;
 
 public interface IGameObject
 {
