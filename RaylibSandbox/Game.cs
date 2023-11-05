@@ -9,21 +9,16 @@ public class Game
 {
     private const int DEFAULT_SCREEN_WIDTH = 800;
     private const int DEFAULT_SCREEN_HEIGHT = 480;
-    private const int TARGET_FPS = 60;
+    private const int TARGET_FPS = 120;
     private const string GAME_TITLE = "Raylib Sandbox";
     
     public static int WindowWidth { get; private set; }
     public static int WindowHeight { get; private set; }
     
-    private readonly SceneManager _sceneManager;
+    private readonly SceneManager _sceneManager = new();
     
     private static bool _exit;
 
-    public Game()
-    {
-        _sceneManager = new SceneManager();
-    }
-    
     public void StartGame()
     {
         Initialize();
@@ -45,7 +40,17 @@ public class Game
             Raylib.BeginDrawing();
 
                 Raylib.ClearBackground(Color.RAYWHITE);
-                _sceneManager.CurrentScene.Draw();
+                
+                var currentScene = _sceneManager.GetCurrentScene();
+                if (currentScene != null)
+                {
+                    currentScene.Draw();
+                }
+                else
+                {
+                    Log.Error("Current scene is null");
+                    throw new Exception("Scene is not set!");
+                }
                 
             Raylib.EndDrawing();
         }
@@ -53,9 +58,14 @@ public class Game
     
     private void Initialize()
     {
+#if DEBUG
+        Raylib.SetTraceLogLevel(TraceLogLevel.LOG_ALL);
+#else
         Raylib.SetTraceLogLevel(TraceLogLevel.LOG_WARNING);
+#endif
         Raylib.SetConfigFlags(ConfigFlags.FLAG_WINDOW_RESIZABLE);
         Raylib.InitWindow(DEFAULT_SCREEN_WIDTH, DEFAULT_SCREEN_HEIGHT, GAME_TITLE);
+        Raylib.SetExitKey(KeyboardKey.KEY_INSERT);
         Raylib.InitAudioDevice();
         Raylib.SetTargetFPS(TARGET_FPS);
         
@@ -67,13 +77,14 @@ public class Game
         WindowHeight = (int)(Raylib.GetMonitorHeight(currentMonitor) * 0.8f);
         WindowWidth = (int)(Raylib.GetMonitorWidth(currentMonitor) * 0.8f);
         
-        Log.Information("Window size: {Width}x{Height}", WindowWidth, WindowHeight);
+        Log.Debug("Window size: {Width}x{Height}", WindowWidth, WindowHeight);
 
         Raylib.SetWindowSize(WindowWidth, WindowHeight);
         Raylib.SetWindowPosition(monitorWidth / 2 - WindowWidth / 2, monitorHeight / 2 - WindowHeight / 2);
         
         _sceneManager.AddScene(new MainMenu(), "mainMenu");
         _sceneManager.AddScene(new SampleMenu(), "sample");
+        _sceneManager.AddScene(new SongSelection("Assets"), "songSelection");
         _sceneManager.LoadScene("mainMenu");
     }
     

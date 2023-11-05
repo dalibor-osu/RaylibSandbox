@@ -24,7 +24,7 @@ public class MainMenu : Scene
             {
                 Position = new Vector2(Game.WindowWidth / 2f, 200),
                 Text = "Start Game",
-                ClickAction = (x) => SceneManager.Instance.LoadScene("sample"),
+                ClickAction = (x) => SceneManager.Instance.LoadScene("songSelection"),
                 Width = 200,
                 Origin = Origin.Center,
                 OnWindowResizeAction = (x) => x.Position = new Vector2(Game.WindowWidth / 2f, 200)

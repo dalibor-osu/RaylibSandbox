@@ -1,0 +1,15 @@
+[SONG]
+NAME: "Rhyme Dust (Dimension Remix)"
+ARTIST: "MK, Dom Dolla, Dimension"
+BPM: 174
+OFFSET: 0
+LENGTH: 264
+
+[NOTES]
+0 0
+345 1
+690 2
+1035 3
+1379 2
+1724 1
+2069 0

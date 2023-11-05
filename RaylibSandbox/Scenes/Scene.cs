@@ -6,8 +6,9 @@ namespace RaylibSandbox.Scenes;
 public abstract class Scene
 {
     public List<IGameObject> Children { get; } = new();
+    public bool Unload { get; set; } = false;
     
-    public void Draw()
+    public virtual void Draw()
     {
         if (Raylib.IsMouseButtonPressed(MouseButton.MOUSE_BUTTON_LEFT))
         {
@@ -50,5 +51,23 @@ public abstract class Scene
             gameObject.ParentScene = this;
             AddGameObject(gameObject);
         }
+    }
+    
+    public virtual void OnSceneLoad<T>(T param)
+    {
+    }
+
+    public virtual void OnSceneLoad()
+    {
+    }
+    
+    public virtual void OnSceneUnload()
+    {
+    }
+    
+    public Scene UnloadOnSceneLoad()
+    {
+        Unload = true;
+        return this;
     }
 }

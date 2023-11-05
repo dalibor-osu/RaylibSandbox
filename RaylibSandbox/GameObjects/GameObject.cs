@@ -7,9 +7,10 @@ namespace RaylibSandbox.GameObjects;
 
 public abstract class GameObject : IGameObject
 {
-    public Scene ParentScene { get; set; }
-    public Vector2 Position { get; set; }
-    public Origin Origin { get; set; } = Origin.TopLeft;
+    public virtual Scene ParentScene { get; set; }
+    public virtual Vector2 Position { get; set; }
+    public virtual Origin Origin { get; set; } = Origin.TopLeft;
+    public virtual bool IsVisible { get; set; }
     public abstract void Draw();
     
     public static void Destroy(IGameObject gameObject)
